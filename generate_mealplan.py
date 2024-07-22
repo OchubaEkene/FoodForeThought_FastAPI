@@ -4,7 +4,7 @@ import json
 with open('config.json', 'r') as keys:
     secret_keys = json.load(keys)
 
-client = OpenAI(api_key=secret_keys['openai_api_key'],organization = secret_keys['openai_api_org'])
+client = OpenAI(api_key=secret_keys["openai_api_key"],organization = secret_keys["openai_api_org"])
 
 def generate_mealplan():
     pass
