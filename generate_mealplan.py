@@ -158,7 +158,7 @@ def createMealPlan(tribe, state, age, gender):
 
     result = response.choices[0].message
 
-    if 'function_call' in result and 'arguments' in result['function_call']:
+    if 'function_call' in result:
         return result['function_call']['arguments']
     else:
         return None
