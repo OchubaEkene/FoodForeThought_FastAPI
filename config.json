@@ -1,4 +1,4 @@
-{
+secret_keys = {
   "openai_api_key": "sk-proj-PvLaavhviVbzIUVXdirST3BlbkFJsUZOE9qxzA7fYanUVRvo",
   "openai_api_org": "org-2nVEaCn83A66XZkTnDvTQGao",
   "openai_project_id": "proj_FSn8ghUeQkjXH7B0Rh1ptjZZ"
