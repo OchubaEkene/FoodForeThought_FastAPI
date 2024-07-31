@@ -1,14 +1,18 @@
-import openai
+from openai import OpenAI
 import json
 
 with open('config.json', 'r') as keys:
     secret_keys = json.load(keys)
 
-# Set your OpenAI API key from the config file
-openai.api_key = secret_keys["openai_api_key"]
+client = OpenAI(
+  organization=secret_keys["openai_api_org"],
+  project=secret_keys["openai_project_id"],
+  api_key=secret_keys["openai_api_key"]
+)
 
 def generate_mealplan():
     pass
+
 
 meal_plan_format = {}
 day_list = []
@@ -145,20 +149,22 @@ def createMealPlan(tribe, state, age, gender):
     - Ensure meals are accessible and ingredients can be easily found in Preferred Location eg. {state}.
     
     """
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
+    response = openai.chat.completions.create(
+        model="gpt-4o",
+        # response_format={ "type": "json_object" },
+        seed=4,
+        temperature=0,
         messages=[
             {"role": "system",
              "content": "You are a professional dietitian tasked with creating a one-month meal plan for a specific patient based in Nigeria."},
             {"role": "user", "content": prompt}
         ],
         functions=function_instructions,
-        function_call="auto"
-    )
+        function_call="auto")
 
     result = response.choices[0].message
 
-    if 'function_call' in result:
+    if 'function_call' in result and 'arguments' in result['function_call']:
         return result['function_call']['arguments']
     else:
         return None
