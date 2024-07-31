@@ -1,119 +1,127 @@
-from openai import OpenAI
 import json
+import openai
+import os
+from dotenv import load_dotenv
+
+# Load env variables from .env file
+load_dotenv()
 
 with open('config.json', 'r') as keys:
     secret_keys = json.load(keys)
 
-client = OpenAI(api_key=secret_keys["openai_api_key"],organization = secret_keys["openai_api_org"])
+# Set your OpenAI API key from an environment variable
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 def generate_mealplan():
     pass
 
-meal_plan_format={}
-day_list=[]
 
-for day in range(0,31):
-  day_list.append(f'day_{day+1}')
-  meal_plan_format[f'day_{day+1}']= {
-                                "type": "object",
-                                "description": f"Provide a meal plan for day {day+1}'s meal breakdown for breakfast, lunch, and dinner. Include note on possible meal substitutions if necessary.",
-                                "properties": {
-                                    "breakfast":{
-                                        "type": "object",
-                                        "description": f"Decide the meal will be eaten for breakfast on day {day+1}",
-                                        "properties":{
-                                            "food_name": {
-                                                "type": "string",
-                                                "description": "Give a descriptive name for the meal/ dish/ snack."
-                                                },
-                                            "food_category": {
-                                                        "type": "string",
-                                                        "description": "This meal can either be a light or heavy meal. this is to be decided as recommended by a professional dietitian."
-                                                        },
-                                            "calories":{
-                                                "type": "number",
-                                                "description": "Calculate the calorie intake for this meal as a professional dietatian would."
-                                            },
-                                            "measure_gram":{
-                                                "type": "number",
-                                                "description": "Give the appropriate measure/ quantity recommended for this meal (given the client/patient's specs). Meal for the given calorie intake should be measured in grams."
-                                            },
-                                            "alternative_measure":{
-                                                "type": "string",
-                                                "description": "Return a human equivalent measurement for the meal and given calories (given that gram might be hard to quantify for people without scales at home)."
-                                            }
-                                        },#end of breakfast schedule
-                                    },#meal
-                                    "lunch":{
-                                        "type": "object",
-                                        "description": f"Decide the meal will be eaten for lunch on day {day+1}",
-                                        "properties":{
-                                            "food_name": {
-                                                "type": "string",
-                                                "description": "Give a descriptive name for the meal/ dish/ snack."
-                                                },
-                                            "food_category": {
-                                                        "type": "string",
-                                                        "description": "This meal can either be a light or heavy meal. this is to be decided as recommended by a professional dietitian."
-                                                        },
-                                            "calories":{
-                                                "type": "number",
-                                                "description": "Calculate the calorie intake for this meal as a professional dietatian would."
-                                            },
-                                            "measure_gram":{
-                                                "type": "number",
-                                                "description": "Give the appropriate measure/ quantity recommended for this meal (given the client/patient's specs). Meal for the given calorie intake should be measured in grams."
-                                            },
-                                            "alternative_measure":{
-                                                "type": "string",
-                                                "description": "Return a human equivalent measurement for the meal and given calories (given that gram might be hard to quantify for people without scales at home)."
-                                            }
-                                        },#end of lunch schedule
-                                    },#meal
-                                    "dinner":{
-                                        "type": "object",
-                                        "description": f"Decide the meal will be eaten for dinner on day {day+1}",
-                                        "properties":{
-                                            "food_name": {
-                                                "type": "string",
-                                                "description": "Give a descriptive name for the meal/ dish/ snack."
-                                                },
-                                            "food_category": {
-                                                        "type": "string",
-                                                        "description": "This meal can either be a light or heavy meal. this is to be decided as recommended by a professional dietitian."
-                                                        },
-                                            "calories":{
-                                                "type": "number",
-                                                "description": "Calculate the calorie intake for this meal as a professional dietatian would."
-                                            },
-                                            "measure_gram":{
-                                                "type": "number",
-                                                "description": "Give the appropriate measure/ quantity recommended for this meal (given the client/patient's specs). Meal for the given calorie intake should be measured in grams."
-                                            },
-                                            "alternative_measure":{
-                                                "type": "string",
-                                                "description": "Return a human equivalent measurement for the meal and given calories (given that gram might be hard to quantify for people without scales at home)."
-                                            }
-                                        },#end of dinner schedule
-                                    }#meal
-                                }
-                            }
+meal_plan_format = {}
+day_list = []
 
-function_instructions=[{
-            "name": "generate_mealplan",
-            "description": "Generate a 31-day Meal Plan: 1. **Daily Structure:** - **Breakfast:** Should include a good mix of carbohydrates and proteins to kickstart the day. - **Lunch:** A balanced meal with a focus on proteins, carbohydrates, and vegetables. - **Dinner:** A lighter meal that still provides necessary nutrients and proteins for muscle recovery.",
-            "parameters": {
+for day in range(0, 31):
+    day_list.append(f'day_{day + 1}')
+    meal_plan_format[f'day_{day + 1}'] = {
+        "type": "object",
+        "description": f"Provide a meal plan for day {day + 1}'s meal breakdown for breakfast, lunch, and dinner. Include note on possible meal substitutions if necessary.",
+        "properties": {
+            "breakfast": {
                 "type": "object",
-                "properties": meal_plan_format,
-                "required": day_list
-            }
-        }]
+                "description": f"Decide the meal will be eaten for breakfast on day {day + 1}",
+                "properties": {
+                    "food_name": {
+                        "type": "string",
+                        "description": "Give a descriptive name for the meal/ dish/ snack."
+                    },
+                    "food_category": {
+                        "type": "string",
+                        "description": "This meal can either be a light or heavy meal. this is to be decided as recommended by a professional dietitian."
+                    },
+                    "calories": {
+                        "type": "number",
+                        "description": "Calculate the calorie intake for this meal as a professional dietatian would."
+                    },
+                    "measure_gram": {
+                        "type": "number",
+                        "description": "Give the appropriate measure/ quantity recommended for this meal (given the client/patient's specs). Meal for the given calorie intake should be measured in grams."
+                    },
+                    "alternative_measure": {
+                        "type": "string",
+                        "description": "Return a human equivalent measurement for the meal and given calories (given that gram might be hard to quantify for people without scales at home)."
+                    }
+                },  # end of breakfast schedule
+            },  # meal
+            "lunch": {
+                "type": "object",
+                "description": f"Decide the meal will be eaten for lunch on day {day + 1}",
+                "properties": {
+                    "food_name": {
+                        "type": "string",
+                        "description": "Give a descriptive name for the meal/ dish/ snack."
+                    },
+                    "food_category": {
+                        "type": "string",
+                        "description": "This meal can either be a light or heavy meal. this is to be decided as recommended by a professional dietitian."
+                    },
+                    "calories": {
+                        "type": "number",
+                        "description": "Calculate the calorie intake for this meal as a professional dietatian would."
+                    },
+                    "measure_gram": {
+                        "type": "number",
+                        "description": "Give the appropriate measure/ quantity recommended for this meal (given the client/patient's specs). Meal for the given calorie intake should be measured in grams."
+                    },
+                    "alternative_measure": {
+                        "type": "string",
+                        "description": "Return a human equivalent measurement for the meal and given calories (given that gram might be hard to quantify for people without scales at home)."
+                    }
+                },  # end of lunch schedule
+            },  # meal
+            "dinner": {
+                "type": "object",
+                "description": f"Decide the meal will be eaten for dinner on day {day + 1}",
+                "properties": {
+                    "food_name": {
+                        "type": "string",
+                        "description": "Give a descriptive name for the meal/ dish/ snack."
+                    },
+                    "food_category": {
+                        "type": "string",
+                        "description": "This meal can either be a light or heavy meal. this is to be decided as recommended by a professional dietitian."
+                    },
+                    "calories": {
+                        "type": "number",
+                        "description": "Calculate the calorie intake for this meal as a professional dietatian would."
+                    },
+                    "measure_gram": {
+                        "type": "number",
+                        "description": "Give the appropriate measure/ quantity recommended for this meal (given the client/patient's specs). Meal for the given calorie intake should be measured in grams."
+                    },
+                    "alternative_measure": {
+                        "type": "string",
+                        "description": "Return a human equivalent measurement for the meal and given calories (given that gram might be hard to quantify for people without scales at home)."
+                    }
+                },  # end of dinner schedule
+            }  # meal
+        }
+    }
+
+function_instructions = [{
+    "name": "generate_mealplan",
+    "description": "Generate a 31-day Meal Plan: 1. **Daily Structure:** - **Breakfast:** Should include a good mix of carbohydrates and proteins to kickstart the day. - **Lunch:** A balanced meal with a focus on proteins, carbohydrates, and vegetables. - **Dinner:** A lighter meal that still provides necessary nutrients and proteins for muscle recovery.",
+    "parameters": {
+        "type": "object",
+        "properties": meal_plan_format,
+        "required": day_list
+    }
+}]
 
 
 def createMealPlan(tribe, state, age, gender):
-    prompt=f"""
-    The patient profile is as follows:
-    - **Tribe: {tribe}
+    prompt = f"""
+     The patient profile is as follows:
+    - **Tribe:** {tribe}
     - **State of Residence:** {state}
     - **Age:** {age}
     - **Gender:** {gender}
@@ -126,7 +134,7 @@ def createMealPlan(tribe, state, age, gender):
     - Lunch: A balanced meal with a focus on proteins, carbohydrates, and vegetables.
     - Dinner: A lighter meal that still provides necessary nutrients and proteins for muscle recovery.
     
-    2. Monlthly Structure (for 31 days):
+    2. Monthly Structure (for 31 days):
     - Create a varied meal plan for each week to avoid repetition and keep the diet interesting.
     
     3. Nutritional Balance:
@@ -138,26 +146,28 @@ def createMealPlan(tribe, state, age, gender):
     4. Portion Sizes:
     - Specify portion sizes for each meal to align with the caloric intake.
     - Adjust portions as necessary to meet daily caloric goals.
-    
-    
+     
     5. Cultural Appropriateness:
     - Use traditional Tribe Meals e.g …{tribe} meals that are common in Preferred Location eg. {state} and enjoyed by the patient.
     - Ensure meals are accessible and ingredients can be easily found in Preferred Location eg. {state}.
     
     """
-    response=client.chat.completions.create(
-                          model="gpt-4o",
-                          #response_format={ "type": "json_object" },
-                          seed=4,
-                          temperature=0,
-                          messages=[
-                              {"role": "system", "content": "You are a professional dietitian tasked with creating a one-month meal plan for a specific patient based in Nigeria."},
-                              {"role": "user", "content": prompt}
-                          ],
-                          functions=function_instructions,
-                          function_call="auto")
+    response = openai.Completion.create(
+        model="gpt-4o",
+        # response_format={ "type": "json_object" },
+        seed=4,
+        temperature=0,
+        messages=[
+            {"role": "system",
+             "content": "You are a professional dietitian tasked with creating a one-month meal plan for a specific patient based in Nigeria."},
+            {"role": "user", "content": prompt}
+        ],
+        functions=function_instructions,
+        function_call="auto")
 
-    result=response.choices[0].message
+    result = response.choices[0].message
 
     if result.function_call.arguments:
         return result.function_call.arguments
+    else:
+        return None
