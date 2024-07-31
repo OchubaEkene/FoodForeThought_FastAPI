@@ -149,16 +149,14 @@ def createMealPlan(tribe, state, age, gender):
     """
     response = openai.ChatCompletion.create(
         model="gpt-4o",
-        # response_format={ "type": "json_object" },
-        seed=4,
-        temperature=0,
         messages=[
             {"role": "system",
              "content": "You are a professional dietitian tasked with creating a one-month meal plan for a specific patient based in Nigeria."},
             {"role": "user", "content": prompt}
         ],
         functions=function_instructions,
-        function_call="auto")
+        function_call="auto"
+    )
 
     result = response.choices[0].message
 
