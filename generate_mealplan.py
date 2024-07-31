@@ -1,17 +1,12 @@
-import json
 import openai
+import json
 import os
-from dotenv import load_dotenv
-
-# Load env variables from .env file
-load_dotenv()
 
 with open('config.json', 'r') as keys:
     secret_keys = json.load(keys)
 
 # Set your OpenAI API key from an environment variable
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
+openai.api_key = secret_keys["openai_api_key"]
 
 def generate_mealplan():
     pass
