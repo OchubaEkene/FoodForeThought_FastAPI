@@ -147,7 +147,7 @@ def createMealPlan(tribe, state, age, gender):
     - Ensure meals are accessible and ingredients can be easily found in Preferred Location eg. {state}.
     
     """
-    response = openai.chat.completions.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4o",
         # response_format={ "type": "json_object" },
         seed=4,
