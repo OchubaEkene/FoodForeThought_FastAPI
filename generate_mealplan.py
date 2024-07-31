@@ -146,7 +146,7 @@ def createMealPlan(tribe, state, age, gender):
     
     """
     response = openai.ChatCompletion.create(
-        model="gpt-4o",
+        model="gpt-4",
         messages=[
             {"role": "system",
              "content": "You are a professional dietitian tasked with creating a one-month meal plan for a specific patient based in Nigeria."},
