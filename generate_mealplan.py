@@ -1,16 +1,14 @@
 import openai
 import json
-import os
 
 with open('config.json', 'r') as keys:
     secret_keys = json.load(keys)
 
-# Set your OpenAI API key from an environment variable
+# Set your OpenAI API key from the config file
 openai.api_key = secret_keys["openai_api_key"]
 
 def generate_mealplan():
     pass
-
 
 meal_plan_format = {}
 day_list = []
