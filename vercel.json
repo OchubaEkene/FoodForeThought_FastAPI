@@ -12,3 +12,8 @@
     }
   ]
 }
+  ],
+  "includeFiles": [
+    "api/config.json"
+  ]
+}
