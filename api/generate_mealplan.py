@@ -1,8 +1,10 @@
 from openai import OpenAI
 import json
 
-with open('config.json', 'r') as keys:
-    secret_keys = json.load(keys)
+config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+
+with open(config_path, 'r') as keys:
+    config = json.load(keys)
 
 client = OpenAI(
   organization=secret_keys["openai_api_org"],
