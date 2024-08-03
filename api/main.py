@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-import generate_mealplan as mp
+from api import generate_mealplan
 import json
 
 app = FastAPI()
