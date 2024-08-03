@@ -1,7 +1,7 @@
 from openai import OpenAI
 import json
 
-with open(config.json, 'r') as keys:
+with open('config.json', 'r') as keys:
     secret_keys = json.load(keys)
 
 client = OpenAI(
