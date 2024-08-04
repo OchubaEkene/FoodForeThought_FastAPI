@@ -5,7 +5,7 @@ import json
 app = FastAPI()
 
 # Mount the static directory
-#app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/get_mealplan/")
 def getMealPlan(tribe: str, state: str, age: int, gender:str):
