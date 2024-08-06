@@ -11,10 +11,11 @@ app = FastAPI()
 def getMealPlan(tribe: str, state: str, age: int, gender:str):
     try:
         results = mp.createMealPlan(tribe, state, age, gender)
-        return json.dumps(results,default=str)
+        return results
     except Exception as e:
+        print(f"{e}")
         raise e
-    return "Hello, World"
+    
 
 if __name__=='__main__':
     import uvicorn
