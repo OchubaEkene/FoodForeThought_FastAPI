@@ -20,83 +20,65 @@ for day in range(0, 31):
     day_list.append(f'day_{day + 1}')
     meal_plan_format[f'day_{day + 1}'] = {
         "type": "object",
-        "description": f"Provide a meal plan for day {day + 1}'s meal breakdown for breakfast, lunch, and dinner. Include note on possible meal substitutions if necessary.",
+        "description": f"meal plan for day {day + 1}'s meal breakdown for breakfast, lunch, and dinner.",
         "properties": {
             "breakfast": {
                 "type": "object",
-                "description": f"Decide the meal will be eaten for breakfast on day {day + 1}",
                 "properties": {
-                    "food_name": {
-                        "type": "string",
-                        "description": "Give a descriptive name for the meal/ dish/ snack."
+                    "meal_name": {
+                        "type": "string"
                     },
                     "food_category": {
-                        "type": "string",
-                        "description": "This meal can either be a light or heavy meal. this is to be decided as recommended by a professional dietitian."
+                        "type": "string"
                     },
-                    "calories": {
-                        "type": "number",
-                        "description": "Calculate the calorie intake for this meal as a professional dietatian would."
+                    "calories_meal_intake": {
+                        "type": "number"
                     },
-                    "measure_gram": {
-                        "type": "number",
-                        "description": "Give the appropriate measure/ quantity recommended for this meal (given the client/patient's specs). Meal for the given calorie intake should be measured in grams."
+                    "meal_measure_gram": {
+                        "type": "number"
                     },
-                    "alternative_measure": {
-                        "type": "string",
-                        "description": "Return a human equivalent measurement for the meal and given calories (given that gram might be hard to quantify for people without scales at home)."
+                    "human_equivalent_alternative_measure": {
+                        "type": "string"
                     }
                 },  # end of breakfast schedule
             },  # meal
             "lunch": {
                 "type": "object",
-                "description": f"Decide the meal will be eaten for lunch on day {day + 1}",
                 "properties": {
-                    "food_name": {
-                        "type": "string",
-                        "description": "Give a descriptive name for the meal/ dish/ snack."
+                    "meal_name": {
+                        "type": "string"
                     },
                     "food_category": {
-                        "type": "string",
-                        "description": "This meal can either be a light or heavy meal. this is to be decided as recommended by a professional dietitian."
+                        "type": "string"
                     },
-                    "calories": {
-                        "type": "number",
-                        "description": "Calculate the calorie intake for this meal as a professional dietatian would."
+                    "calories_meal_intake": {
+                        "type": "number"
                     },
-                    "measure_gram": {
-                        "type": "number",
-                        "description": "Give the appropriate measure/ quantity recommended for this meal (given the client/patient's specs). Meal for the given calorie intake should be measured in grams."
+                    "meal_measure_gram": {
+                        "type": "number"
                     },
-                    "alternative_measure": {
-                        "type": "string",
-                        "description": "Return a human equivalent measurement for the meal and given calories (given that gram might be hard to quantify for people without scales at home)."
+                    "human_equivalent_alternative_measure": {
+                        "type": "string"
                     }
                 },  # end of lunch schedule
             },  # meal
             "dinner": {
                 "type": "object",
-                "description": f"Decide the meal will be eaten for dinner on day {day + 1}",
                 "properties": {
-                    "food_name": {
-                        "type": "string",
-                        "description": "Give a descriptive name for the meal/ dish/ snack."
+                    "meal_name": {
+                        "type": "string"
                     },
                     "food_category": {
-                        "type": "string",
-                        "description": "This meal can either be a light or heavy meal. this is to be decided as recommended by a professional dietitian."
+                        "type": "string"
                     },
-                    "calories": {
-                        "type": "number",
-                        "description": "Calculate the calorie intake for this meal as a professional dietatian would."
+                    "calories_meal_intake": {
+                        "type": "number"
                     },
-                    "measure_gram": {
-                        "type": "number",
-                        "description": "Give the appropriate measure/ quantity recommended for this meal (given the client/patient's specs). Meal for the given calorie intake should be measured in grams."
+                    "meal_measure_gram": {
+                        "type": "number"
                     },
-                    "alternative_measure": {
-                        "type": "string",
-                        "description": "Return a human equivalent measurement for the meal and given calories (given that gram might be hard to quantify for people without scales at home)."
+                    "human_equivalent_alternative_measure": {
+                        "type": "string"
                     }
                 },  # end of dinner schedule
             }  # meal
@@ -105,7 +87,7 @@ for day in range(0, 31):
 
 function_instructions = [{
     "name": "generate_mealplan",
-    "description": "Generate a 31-day Meal Plan: 1. **Daily Structure:** - **Breakfast:** Should include a good mix of carbohydrates and proteins to kickstart the day. - **Lunch:** A balanced meal with a focus on proteins, carbohydrates, and vegetables. - **Dinner:** A lighter meal that still provides necessary nutrients and proteins for muscle recovery.",
+    "description": "Generate a 31-day Meal Plan (Breakfast, Lunch and Dinner.",
     "parameters": {
         "type": "object",
         "properties": meal_plan_format,
@@ -117,11 +99,11 @@ function_instructions = [{
 def createMealPlan(tribe, state, age, gender):
     prompt = f"""
      The patient profile is as follows:
-    - **Tribe:** {tribe}
-    - **State of Residence:** {state}
-    - **Age:** {age}
-    - **Gender:** {gender}
-    - **Meal Goal:** Bodybuilding and maintaining overall health
+    - Tribe: {tribe}
+    - State of Residence: {state}
+    - Age: {age}
+    - Gender: {gender}
+    - Meal Goal: Bodybuilding and maintaining overall health
     
     
     Requirements for Meal Plan:
@@ -133,17 +115,7 @@ def createMealPlan(tribe, state, age, gender):
     2. Monthly Structure (for 31 days):
     - Create a varied meal plan for each week to avoid repetition and keep the diet interesting.
     
-    3. Nutritional Balance:
-    - Ensure each day's meals collectively meet the requirement.
-    - Include a variety of protein sources to aid body building.
-    - Incorporate healthy fats and avoid excessive use of oils or fried foods.
-    - Ensure adequate fiber intake through vegetables and grains.
-    
-    4. Portion Sizes:
-    - Specify portion sizes for each meal to align with the caloric intake.
-    - Adjust portions as necessary to meet daily caloric goals.
-     
-    5. Cultural Appropriateness:
+    3.Cultural Appropriateness:
     - Use traditional Tribe Meals e.g …{tribe} meals that are common in Preferred Location eg. {state} and enjoyed by the patient.
     - Ensure meals are accessible and ingredients can be easily found in Preferred Location eg. {state}.
     
@@ -162,8 +134,8 @@ def createMealPlan(tribe, state, age, gender):
         function_call="auto")
 
     result = response.choices[0].message
-
-    if 'function_call' in result and 'arguments' in result['function_call']:
-        return result['function_call']['arguments']
+        
+    if result.function_call.arguments:
+        return json.loads(result.function_call.arguments)
     else:
         return None
